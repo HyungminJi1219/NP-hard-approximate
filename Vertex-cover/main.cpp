@@ -14,7 +14,7 @@ using namespace std;
 struct Vertice {
     double x_coordinate;
     double y_coordinate;
-    bool check = false;
+    bool done = false;
 };
 //construct a struct for edge. store start, end point on each.
 struct Edge {
@@ -25,16 +25,17 @@ struct Edge {
 class Graph {
 public:
     void initialize ();
-    void Optimal_cal(Vertice &vertex, uint32_t &value);
+    void greedy_approach();
     void approx_cal();
     void reset();
+    void edge_initiate(Vertice &input);
     uint32_t edge_checker(Vertice &input);
 private:
     vector<Vertice> vertex;
     vector<Edge> edge;
     vector<Vertice> approx_output;
-    vector<Vertice> Optimal_output;
-    uint32_t optimal_value;
+    vector<Vertice> greedy_output;
+    uint32_t greedy_value;
     uint32_t approximate_value;
 };
 
@@ -62,6 +63,39 @@ void Graph:: approx_cal() {
     }
     approximate_value = static_cast<uint32_t>(approx_output.size());
 }
+
+// Greedy algorithm
+void Graph:: greedy_approach() {
+    int max_value = 0;
+    Vertice max_point;
+    for (int i = 0; i <vertex.size() ;i++) {
+        // check which vertex has the most edge covered
+        for (int i = 0; i < vertex.size(); i++) {
+            if (edge_checker(vertex[i]) > max_value) {
+                max_value = edge_checker(vertex[i]);
+                max_point = vertex[i];
+            }
+        }
+        greedy_output.push_back(max_point);
+        edge_initiate(max_point);
+    }
+    greedy_value = static_cast<uint32_t>(greedy_output.size());
+    
+}
+void Graph:: edge_initiate(Vertice &input) {
+    for (int i = 0; i < edge.size(); i++) {
+        if (edge[i].start_point.x_coordinate == input.x_coordinate) {
+            if (edge[i].start_point.y_coordinate == input.y_coordinate) {
+                edge[i].check = true;
+            }
+        }
+        if (edge[i].end_point.x_coordinate == input.x_coordinate) {
+            if (edge[i].end_point.y_coordinate == input.y_coordinate) {
+                edge[i].check = true;
+            }
+        }
+    }
+}
 void Graph:: reset() {
     for (int i = 0; i <edge.size(); i++) {
         edge[i].check = false;
@@ -74,13 +108,11 @@ uint32_t Graph:: edge_checker(Vertice &input) {
         bool include = false;
         if (edge[i].start_point.x_coordinate == input.x_coordinate) {
             if (edge[i].start_point.y_coordinate == input.y_coordinate) {
-                edge[i].check = true;
                 include = true;
             }
         }
         if (edge[i].end_point.x_coordinate == input.x_coordinate) {
             if (edge[i].end_point.y_coordinate == input.y_coordinate) {
-                edge[i].check = true;
                 include = true;
             }
         }
