@@ -40,6 +40,7 @@ void Graph:: initialize() {
     // in a form of ((Start_point), (End-point))
     cin >> junk>> junk>> temp2.start_point.x_coordinate >> junk >> temp2.start_point.y_coordinate>> junk >> junk>> junk>> temp2.start_point.x_coordinate >> junk>> temp2.start_point.y_coordinate>> junk>> junk;
     edge.push_back(temp2);
+    approx_cal();
 }
 
 // yield 2 approximate output
@@ -82,7 +83,8 @@ uint32_t Graph:: edge_checker(vector<Vertice> &input, Vertice &input2) {
 }
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+    Graph graph;
+    graph.initialize();
+    
     return 0;
 }
