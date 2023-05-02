@@ -1,9 +1,3 @@
-//
-//  main.cpp
-//  Vertex-cover
-//
-//  Created by Hyung Min Ji on 4/30/23.
-//
 #include <vector>
 #include <iostream>
 #include <math.h>
@@ -50,6 +44,9 @@ void Graph:: initialize() {
     // in a form of ((Start_point), (End-point))
     cin >> junk>> junk>> temp2.start_point.x_coordinate >> junk >> temp2.start_point.y_coordinate>> junk >> junk>> junk>> temp2.start_point.x_coordinate >> junk>> temp2.start_point.y_coordinate>> junk>> junk;
     edge.push_back(temp2);
+    approx_cal();
+    reset();
+    greedy_approach();
 }
 
 // yield 2 approximate output
@@ -123,7 +120,8 @@ uint32_t Graph:: edge_checker(Vertice &input) {
     return value;
 }
 int main(int argc, const char * argv[]) {
-    // insert code here...
+    Graph graph;
+    graph.initialize();
     std::cout << "Hello, World!\n";
     return 0;
 }
